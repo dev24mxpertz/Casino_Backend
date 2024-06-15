@@ -138,10 +138,10 @@ exports.signout = catchAsyncError(async (req, res, next) => {
 
 exports.Change_Password = catchAsyncError(async (req, res) => {
   try {
-    // console.log(req.body);
+    console.log(req.body);
     const { user_id, Newpassword } = req.body;
     const user = await User.findById(user_id);
-    // console.log(user);
+    console.log(user);
     user.password = Newpassword;
     await user.save();
     return res.status(200).json({ user });
