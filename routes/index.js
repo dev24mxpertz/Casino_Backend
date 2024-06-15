@@ -85,7 +85,7 @@ router.post(
 
 router.get("/api/signout", signout); //Signout
 
-router.post("/api/Change_Password", isAuthorizedUser, Change_Password); //Change Password
+router.post("/api/Change_Password", Change_Password); //Change Password
 
 router.post("/api/Makeuser_subscribe", Makeuser_subscribe); // Make User Subscribed
 
