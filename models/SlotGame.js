@@ -1,6 +1,10 @@
 const mongoose = require("mongoose");
 
 const slotGameSchema = new mongoose.Schema({
+  Game_name:{
+    type:String,
+    default:"Slot Game"
+  },
   bet_Amount: {
     type: Number,
     default: 0,

@@ -73,6 +73,7 @@ const {
   Get_All_Rouletta_Game_Data,
   Fetch_Hunt_Game_Data,
   Get_All_Hunt_Game_Data,
+  Get_All_Game_Data,
 } = require("../controllers/GameControllers");
 
 /* get / ---------------------------------------------------  route ----------------------------------------  */
@@ -203,5 +204,9 @@ router.get("/api/Get_All_Rouletta_Game_Data", Get_All_Rouletta_Game_Data);
 router.post("/api/Fetch_Hunt_Game_Data", Fetch_Hunt_Game_Data);
 
 router.get("/api/Get_All_Hunt_Game_Data", Get_All_Hunt_Game_Data);
+
+// ------------ All Game Data -------------------------------
+
+router.get("/api/Get_All_Game_Data", Get_All_Game_Data);
 
 module.exports = router;

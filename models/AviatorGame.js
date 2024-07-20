@@ -1,6 +1,10 @@
 const mongoose = require("mongoose");
 
 const aviatorGameSchema = new mongoose.Schema({
+  Game_name: {
+    type: String,
+    default: "Aviator Game",
+  },
   bet_Amount: {
     type: Number,
     default: 0,

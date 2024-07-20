@@ -1,7 +1,11 @@
 const mongoose = require("mongoose");
 
 const BlackJackSchema = new mongoose.Schema({
-  betAmount: {
+  Game_name: {
+    type: String,
+    default: "BlackJack",
+  },
+  bet_Amount: {
     type: Number,
     default: 0,
   },

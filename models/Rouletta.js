@@ -1,11 +1,15 @@
 const mongoose = require("mongoose");
 
 const RoulettaSchema = new mongoose.Schema({
+  Game_name: {
+    type: String,
+    default: "Rouletta",
+  },
   Status: {
     type: String,
     default: "",
   },
-  bet_Price: {
+  bet_Amount: {
     type: Number,
     default: 0,
   },
