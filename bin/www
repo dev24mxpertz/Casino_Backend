@@ -7,6 +7,8 @@
 var app = require('../app');
 var debug = require('debug')('casino-backend:server');
 var http = require('http');
+var WebSocket = require('ws');
+const mongoose = require("mongoose");
 
 /**
  * Get port from environment and store in Express.
@@ -19,11 +21,49 @@ app.set('port', port);
  * Create HTTP server.
  */
 
+
 var server = http.createServer(app);
 
 /**
  * Listen on provided port, on all network interfaces.
  */
+var wss = new WebSocket.Server({ server });
+
+const MessageSchema = new mongoose.Schema({
+  sender: String,
+  content: String,
+  timestamp: { type: Date, default: Date.now }
+});
+
+const Message = mongoose.model("Message", MessageSchema);
+
+// Handle WebSocket connections
+wss.on("connection", async (ws) => {
+  try {
+    // Send existing messages to new clients
+    const messages = await Message.find().sort({ timestamp: 1 }).exec();
+    ws.send(JSON.stringify({ type: "init", messages }));
+  } catch (err) {
+    console.error(err);
+  }
+
+  // Handle incoming messages from clients
+  ws.on("message", async (data) => {
+    try {
+      const messageData = JSON.parse(data);
+      const newMessage = new Message(messageData);
+      await newMessage.save();
+      // Broadcast the new message to all clients
+      wss.clients.forEach((client) => {
+        if (client.readyState === WebSocket.OPEN) {
+          client.send(JSON.stringify({ type: "message", message: newMessage }));
+        }
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  });
+});
 
 server.listen(port);
 server.on('error', onError);
@@ -87,4 +127,5 @@ function onListening() {
     ? 'pipe ' + addr
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
+  console.log(`Server is listening on port ${addr.port}`);
 }
